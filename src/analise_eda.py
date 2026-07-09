@@ -3,17 +3,30 @@
 # %% Cell 0
 from pathlib import Path
 
-BASE_DIR = Path.cwd()
-if (BASE_DIR / "data").exists():
-    DATA_DIR = BASE_DIR / "data"
-elif (BASE_DIR.parent / "data").exists():
-    DATA_DIR = BASE_DIR.parent / "data"
-else:
-    DATA_DIR = BASE_DIR / "data"
+try:
+    PROJECT_DIR = Path(__file__).resolve().parent.parent
+except NameError:
+    BASE_DIR = Path.cwd()
+    if (BASE_DIR / "data").exists():
+        PROJECT_DIR = BASE_DIR
+    elif (BASE_DIR.parent / "data").exists():
+        PROJECT_DIR = BASE_DIR.parent
+    else:
+        PROJECT_DIR = BASE_DIR
+
+DATA_DIR = PROJECT_DIR / "data"
+OUTPUT_DIR = PROJECT_DIR / "outputs" / "figures"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+import matplotlib
+RUNNING_AS_SCRIPT = "__file__" in globals()
+if RUNNING_AS_SCRIPT:
+    matplotlib.use("Agg")
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
+plt.style.use("seaborn-v0_8-whitegrid")
 # Formata valores numericos com duas casas decimais no pandas.
 pd.set_option("display.float_format", "{:,.2f}".format)
 
@@ -46,18 +59,22 @@ df1.isnull().sum()
 df2.isnull().sum()
 
 # %% Cell 10
-print("Média:", df1["SALARY"].mean())
-print("Mediana:", df1["SALARY"].median())
-print("Mínimo:", df1["SALARY"].min())
-print("Máximo:", df1["SALARY"].max())
+print(f"Media: {df1['SALARY'].mean():.2f}")
+print(f"Mediana: {df1['SALARY'].median():.2f}")
+print(f"Minimo: {df1['SALARY'].min():.2f}")
+print(f"Maximo: {df1['SALARY'].max():.2f}")
 
 # %% Cell 11
 plt.figure(figsize=(8,5))
-plt.hist(df1["SALARY"], bins=10, edgecolor="black")
-plt.title("Distribuição dos Salários")
-plt.xlabel("Salário")
-plt.ylabel("Quantidade de Funcionários")
-plt.show()
+plt.hist(df1["SALARY"], bins=10, edgecolor="black", color="#4C78A8")
+plt.title("Distribuicao dos salarios")
+plt.xlabel("Salario")
+plt.ylabel("Quantidade de funcionarios")
+plt.tight_layout()
+plt.savefig(OUTPUT_DIR / "histograma_salarios.png", dpi=150, bbox_inches="tight")
+if not RUNNING_AS_SCRIPT:
+    plt.show()
+plt.close()
 
 # %% Cell 12
 df1.groupby("DEPARTMENT_NAME")["SALARY"].mean().sort_values(ascending=False)
@@ -72,20 +89,28 @@ media_cargo = (
 media_cargo
 
 # %% Cell 14
-media_cargo.sort_values().plot(kind="barh", figsize=(9,5))
-plt.title("Top 10 Cargos com Maior Média Salarial")
-plt.xlabel("Salário Médio")
+media_cargo.sort_values().plot(kind="barh", figsize=(9,5), color="#F58518")
+plt.title("Top 10 Cargos com Maior Media Salarial")
+plt.xlabel("Salario Medio")
 plt.ylabel("Cargo")
-plt.show()
+plt.tight_layout()
+plt.savefig(OUTPUT_DIR / "top_10_cargos_maior_media_salarial.png", dpi=150, bbox_inches="tight")
+if not RUNNING_AS_SCRIPT:
+    plt.show()
+plt.close()
 
 # %% Cell 15
 plt.figure(figsize=(12,6))
 df1.boxplot(column="SALARY", by="DEPARTMENT_NAME", rot=90)
-plt.title("Salário por Departamento")
+plt.title("Salario por Departamento")
 plt.suptitle("")
 plt.xlabel("Departamento")
-plt.ylabel("Salário")
-plt.show()
+plt.ylabel("Salario")
+plt.tight_layout()
+plt.savefig(OUTPUT_DIR / "boxplot_salario_por_departamento.png", dpi=150, bbox_inches="tight")
+if not RUNNING_AS_SCRIPT:
+    plt.show()
+plt.close()
 
 # %% Cell 16
 cargo = (
@@ -94,21 +119,26 @@ cargo = (
     .sort_values()
 )
 plt.figure(figsize=(10,8))
-cargo.plot(kind="barh")
-plt.title("Média Salarial por Cargo")
-plt.xlabel("Salário Médio")
+cargo.plot(kind="barh", color="#54A24B")
+plt.title("Media Salarial por Cargo")
+plt.xlabel("Salario Medio")
 plt.ylabel("Cargo")
-plt.show()
+plt.tight_layout()
+plt.savefig(OUTPUT_DIR / "media_salarial_por_cargo.png", dpi=150, bbox_inches="tight")
+if not RUNNING_AS_SCRIPT:
+    plt.show()
+plt.close()
 
 # %% Cell 17
-df.shape
-#explicação dos 106 registros
+print("Query 1:", df1.shape)
+print("Query 2:", df2.shape)
 
 # %% Cell 18
 df = pd.merge(
     df1,
     df2[["EMPLOYEE_ID", "REGION_NAME"]],
-    on="EMPLOYEE_ID"
+    on="EMPLOYEE_ID",
+    how="left"
 )
 
 # %% Cell 19
@@ -123,23 +153,32 @@ df.groupby("REGION_NAME")["SALARY"].mean()
 # %% Cell 22
 df.groupby("REGION_NAME")["SALARY"].mean().plot(
     kind="bar",
-    figsize=(7,4)
+    figsize=(7,4),
+    color="#E45756"
 )
-plt.title("Média Salarial por Região")
-plt.xlabel("Região")
-plt.ylabel("Salário Médio")
-plt.show()
+plt.title("Media Salarial por Regiao")
+plt.xlabel("Regiao")
+plt.ylabel("Salario Medio")
+plt.tight_layout()
+plt.savefig(OUTPUT_DIR / "media_salarial_por_regiao.png", dpi=150, bbox_inches="tight")
+if not RUNNING_AS_SCRIPT:
+    plt.show()
+plt.close()
 
 # %% Cell 23
 func_por_depto = df1["DEPARTMENT_NAME"].value_counts()
 func_por_depto
 
 # %% Cell 24
-func_por_depto.sort_values().plot(kind="barh", figsize=(8,5))
-plt.title("Quantidade de Funcionários por Departamento")
-plt.xlabel("Quantidade de Funcionários")
+func_por_depto.sort_values().plot(kind="barh", figsize=(8,5), color="#72B7B2")
+plt.title("Quantidade de Funcionarios por Departamento")
+plt.xlabel("Quantidade de Funcionarios")
 plt.ylabel("Departamento")
-plt.show()
+plt.tight_layout()
+plt.savefig(OUTPUT_DIR / "quantidade_funcionarios_por_departamento.png", dpi=150, bbox_inches="tight")
+if not RUNNING_AS_SCRIPT:
+    plt.show()
+plt.close()
 
 # %% Cell 25
 resumo_departamento = df1.groupby("DEPARTMENT_NAME").agg(
@@ -153,20 +192,25 @@ faixas = pd.cut(
     df1["SALARY"],
     bins=[0,4000,7000,10000,25000],
     labels=[
-        "Até R$4.000",
-        "R$4.001–7.000",
-        "R$7.001–10.000",
+        "Ate R$4.000",
+        "R$4.001-7.000",
+        "R$7.001-10.000",
         "Acima de R$10.000"
     ]
 )
 faixas.value_counts().sort_index().plot(
     kind="bar",
-    figsize=(8,4)
+    figsize=(8,4),
+    color="#B279A2"
 )
-plt.title("Distribuição dos Funcionários por Faixa Salarial")
+plt.title("Distribuicao dos Funcionarios por Faixa Salarial")
 plt.xlabel("Faixa Salarial")
 plt.ylabel("Quantidade")
-plt.show()
+plt.tight_layout()
+plt.savefig(OUTPUT_DIR / "distribuicao_por_faixa_salarial.png", dpi=150, bbox_inches="tight")
+if not RUNNING_AS_SCRIPT:
+    plt.show()
+plt.close()
 
 # %% Cell 27
 Q1 = df1["SALARY"].quantile(0.25)

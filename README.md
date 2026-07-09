@@ -105,6 +105,10 @@ Objetivo:
 
 ![Média salarial por cargo](outputs/figures/media_salarial_por_cargo.png)
 
+### Top 10 cargos com maior média salarial
+
+![Top 10 cargos com maior média salarial](outputs/figures/top_10_cargos_maior_media_salarial.png)
+
 ### Média salarial por região
 
 ![Média salarial por região](outputs/figures/media_salarial_por_regiao.png)
