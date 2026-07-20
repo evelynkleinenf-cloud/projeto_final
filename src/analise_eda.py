@@ -489,7 +489,7 @@ if not RUNNING_AS_SCRIPT:
     plt.show()
 plt.close()
 
-"""O departamento Executive possui a maior m?dia salarial, enquanto Shipping apresenta a menor. J? em quantidade de funcion?rios, Shipping e Sales concentram mais colaboradores, mostrando que setores com mais pessoas nem sempre s?o os que pagam melhor.
+"""O departamento Executive possui a maior média salarial, enquanto Shipping apresenta a menor. Já em quantidade de funcionários, Shipping e Sales concentram mais colaboradores, mostrando que setores com mais pessoas nem sempre são os que pagam melhor.
 
 ## 7.2 Faixas Salariais
 """
@@ -498,7 +498,7 @@ faixas = pd.cut(
     df1["SALARY"],
     bins=[0, 4000, 7000, 10000, 25000],
     labels=[
-        "At? R$ 4.000",
+        "Até R$ 4.000",
         "R$ 4.001 - 7.000",
         "R$ 7.001 - 10.000",
         "Acima de R$ 10.000"
@@ -510,7 +510,7 @@ faixas_contagem = faixas.value_counts().sort_index()
 
 fig, ax = plt.subplots(figsize=(8, 4))
 faixas_contagem.plot(kind="bar", ax=ax, color="#B279A2")
-ax.set_title("Distribui??o dos Funcion?rios por Faixa Salarial")
+ax.set_title("Distribuição dos Funcionários por Faixa Salarial")
 ax.set_xlabel("Faixa Salarial")
 ax.set_ylabel("Quantidade")
 ax.bar_label(ax.containers[0], labels=[str(int(v)) for v in faixas_contagem], padding=3)
@@ -521,11 +521,11 @@ if not RUNNING_AS_SCRIPT:
     plt.show()
 plt.close()
 
-"""A maior parte dos funcion?rios est? concentrada nas faixas salariais mais baixas e intermedi?rias, enquanto poucos colaboradores aparecem nas faixas acima de R$ 10.000. Isso refor?a a exist?ncia de poucos sal?rios muito altos na base.
+"""A maior parte dos funcionários está concentrada nas faixas salariais mais baixas e intermediárias, enquanto poucos colaboradores aparecem nas faixas acima de R$ 10.000. Isso reforça a existência de poucos salários muito altos na base.
 
-# 8.Identifica??o de Outliers
+# 8.Identificação de Outliers
 
-Esta etapa identifica quais funcion?rios possuem sal?rios considerados fora do padr?o estat?stico por meio do m?todo do Intervalo Interquartil (IQR).
+Esta etapa identifica quais funcionários possuem salários considerados fora do padrão estatístico por meio do método do Intervalo Interquartil (IQR).
 """
 
 Q1 = df1["SALARY"].quantile(0.25)
@@ -546,46 +546,46 @@ print(f"Limite inferior: {format_currency(limite_inferior)}")
 print(f"Limite superior: {format_currency(limite_superior)}")
 outliers
 
-"""Foi identificado 1 funcion?rio com sal?rio acima do padr?o estat?stico do conjunto de dados, pertencente ao departamento Executive e ao cargo President. Esse valor ? o ?nico acima do limite superior calculado pelo m?todo IQR, refor?ando seu car?ter de outlier.
+"""Foi identificado 1 funcionário com salário acima do padrão estatístico do conjunto de dados, pertencente ao departamento Executive e ao cargo President. Esse valor é o único acima do limite superior calculado pelo método IQR, reforçando seu caráter de outlier.
 
 # 9.Principais Insights
 
-- O departamento Executive possui a maior remunera??o m?dia da empresa, indicando concentra??o de cargos estrat?gicos.
+- O departamento Executive possui a maior remuneração média da empresa, indicando concentração de cargos estratégicos.
 
 
-- Shipping ? o departamento com menor m?dia salarial e tamb?m um dos que possuem maior n?mero de colaboradores.
+- Shipping é o departamento com menor média salarial e também um dos que possuem maior número de colaboradores.
 
-- A Europa apresentou m?dia salarial superior ? regi?o Americas para os funcion?rios presentes na base analisada.
+- A região Europe apresentou média salarial superior à região Americas para os funcionários presentes na base analisada.
 
-- Apenas um sal?rio foi considerado outlier, indicando que a distribui??o salarial ? relativamente consistente.
+- Apenas um salário foi considerado outlier, indicando que a distribuição salarial é relativamente consistente.
 
-# 10.Limita??es da An?lise
+# 10.Limitações da Análise
 
-A an?lise foi realizada com base em duas consultas SQL extra?das do banco de dados HR. Algumas informa??es presentes na base original n?o foram utilizadas, pois n?o faziam parte do escopo do projeto.
+A análise foi realizada com base em duas consultas SQL extraídas do banco de dados HR. Algumas informações presentes na base original não foram utilizadas, pois não faziam parte do escopo do projeto.
 
-Al?m disso, um funcion?rio da base salarial n?o possu?a correspond?ncia na base geogr?fica, motivo pelo qual a an?lise por regi?o considerou 106 registros com localiza??o preenchida.
+Além disso, um funcionário da base salarial não possuía correspondência na base geográfica, motivo pelo qual a análise por região considerou 106 registros com localização preenchida.
 
-# 11.Conclus?o
+# 11.Conclusão
 
-A an?lise permitiu compreender a estrutura salarial dos colaboradores a partir de duas perspectivas principais: departamentos e regi?es.
+A análise permitiu compreender a estrutura salarial dos colaboradores a partir de duas perspectivas principais: departamentos e regiões.
 
-Os resultados mostraram que o departamento Executive concentra as maiores remunera??es, enquanto Shipping apresenta a menor m?dia salarial.
+Os resultados mostraram que o departamento Executive concentra as maiores remunerações, enquanto Shipping apresenta a menor média salarial.
 
-Tamb?m foi observado que a regi?o Europe possui m?dia salarial superior ? regi?o Americas, considerando os registros com informa??es geogr?ficas dispon?veis.
+Também foi observado que a região Europe possui média salarial superior à região Americas, considerando os registros com informações geográficas disponíveis.
 
-A EDA tamb?m revelou que a maior parte dos sal?rios est? concentrada em faixas mais baixas e intermedi?rias, enquanto poucos colaboradores possuem remunera??es muito elevadas. Esse comportamento foi confirmado pela identifica??o de um outlier, pertencente ao departamento Executive, indicando um sal?rio significativamente acima do padr?o geral.
+A EDA também revelou que a maior parte dos salários está concentrada em faixas mais baixas e intermediárias, enquanto poucos colaboradores possuem remunerações muito elevadas. Esse comportamento foi confirmado pela identificação de um outlier, pertencente ao departamento Executive, indicando um salário significativamente acima do padrão geral.
 
-As queries foram essenciais para organizar os dados em duas bases complementares: uma voltada ? an?lise salarial e outra ? an?lise geogr?fica. A jun??o dessas bases permitiu ampliar a an?lise e gerar insights mais completos sobre a distribui??o de sal?rios na empresa.
+As queries foram essenciais para organizar os dados em duas bases complementares: uma voltada à análise salarial e outra à análise geográfica. A junção dessas bases permitiu ampliar a análise e gerar insights mais completos sobre a distribuição de salários na empresa.
 
-# 12.Ap?ndice A ? Consultas SQL Utilizadas
+# 12.Apêndice A - Consultas SQL Utilizadas
 
-As consultas SQL nos campos abaixo foram utilizadas para extrair os dados do banco HR, posteriormente exportados em formato CSV para a realiza??o da An?lise Explorat?ria de Dados (EDA).
+As consultas SQL abaixo foram utilizadas para extrair os dados do banco HR, posteriormente exportados em formato CSV para a realização da Análise Exploratória de Dados (EDA).
 
-Encontram-se disponibilizados no reposit?rio os arquivos `sql/consultas_sql.sql`, `data/query_01.csv`, `data/query_02.csv` e `src/analise_eda.py`, que comp?em o material principal deste projeto.
+Encontram-se disponibilizados no repositório os arquivos `sql/consultas_sql.sql`, `data/query_01.csv`, `data/query_02.csv` e `src/analise_eda.py`, que compõem o material principal deste projeto.
 """
 
 """
-# QUERY 1: Funcion?rios, cargos e departamentos
+# QUERY 1: Funcionários, cargos e departamentos
 SELECT
     e.employee_id,
     e.first_name,
@@ -603,7 +603,7 @@ ORDER BY e.salary DESC;
 """
 
 """
-# QUERY 2: Funcion?rios, departamentos e localiza??o
+# QUERY 2: Funcionários, departamentos e localização
 SELECT
     e.employee_id,
     e.first_name,
