@@ -1,32 +1,35 @@
 # Projeto Final EDA - Salários por Departamento e Região
 
-Projeto final de Análise Exploratória de Dados com a base HR, usando consultas SQL exportadas em CSV e análise em Python.
+Projeto simples de Análise Exploratória de Dados (EDA) com a base HR, usando duas consultas SQL no FreeSQL, exportação para CSV e análise em Python.
 
-## Aluno
+## Aluno e turma
 
-- Nome: Evelyn Klein
-- Turma: 2026/1 - V2
+- **Nome:** Evelyn Klein
+- **Turma:** 2026/1 - V2
 
 ## Objetivo do trabalho
 
-O objetivo deste projeto foi analisar a distribuição de salários por departamento, cargo e região, identificando padrões, comparações relevantes e possíveis outliers na base HR.
+O objetivo deste projeto foi analisar a distribuição salarial dos colaboradores da base HR, comparando salários por departamento, cargo e região, além de identificar padrões, diferenças entre setores e possíveis outliers.
 
-## Tabelas utilizadas
+## Organização do projeto
+
+- [x] Montar a Query 1
+- [x] Montar a Query 2
+- [x] Exportar os dados para CSV
+- [x] Ler os CSVs no Python
+- [x] Fazer a análise exploratória
+- [x] Criar os gráficos
+- [x] Escrever os resultados no README.md
+- [x] Revisar o projeto final
+
+## Tabelas usadas
 
 - `hr.employees`: tabela principal com os funcionários e salários.
 - `hr.jobs`: tabela com os cargos.
 - `hr.departments`: tabela com os departamentos.
-- `hr.locations`: tabela com cidades e locais.
+- `hr.locations`: tabela com as cidades e locais.
 - `hr.countries`: tabela com os países.
 - `hr.regions`: tabela com as regiões geográficas.
-
-## Estrutura do repositório
-
-- `data/` - arquivos CSV extraídos das consultas.
-- `notebooks/` - notebook principal da análise.
-- `sql/` - consultas SQL usadas na extração.
-- `src/` - script Python com a EDA.
-- `outputs/figures/` - gráficos gerados para a documentação.
 
 ## Resumo das consultas SQL
 
@@ -47,7 +50,7 @@ Objetivo:
 
 - analisar salários por cargo
 - comparar salários entre departamentos
-- apoiar a criação do histograma e do boxplot
+- apoiar as análises de histograma, boxplot e ranking de cargos
 
 ### Query 2 - Funcionários por região com localização
 
@@ -69,29 +72,29 @@ Objetivo:
 - relacionar localização com os salários
 - permitir a junção com a Query 1 para comparar salários por região
 
-## Como a análise foi feita em Python
+## Análise feita em Python
 
 1. Os arquivos `query_01.csv` e `query_02.csv` foram lidos com `pandas`.
-2. Foi feita uma exploração inicial com `head`, `info`, `describe` e verificação de valores nulos.
-3. A média, mediana, valor mínimo e valor máximo dos salários foram calculados.
+2. Foi feita uma exploração inicial com `head()`, `info()`, `describe()` e verificação de valores nulos.
+3. Foram calculadas estatísticas básicas: média, mediana, mínimo e máximo.
 4. Os salários foram agrupados por departamento, cargo e região.
 5. Os dados das duas consultas foram combinados pela coluna `EMPLOYEE_ID`.
-6. Foram gerados gráficos para visualizar a distribuição salarial, o boxplot por departamento e as comparações por cargo e região.
+6. Foram gerados gráficos para visualizar a distribuição salarial, o boxplot por departamento e região, a média salarial por região, a quantidade de funcionários por região, a comparação entre setores e as faixas salariais.
+7. Foi aplicada a regra do Intervalo Interquartil (IQR) para identificar outliers.
 
 ## Principais resultados encontrados
 
-- Média salarial geral: `6461.83`
-- Mediana salarial geral: `6200.00`
-- Salário mínimo: `2100.00`
-- Salário máximo: `24000.00`
-- O maior salário identificado foi o do cargo `President`.
-- O departamento com maior média salarial foi `Executive` (`19333.33`).
-- Em seguida aparecem `Accounting` (`10154.00`), `Marketing` (`9500.00`) e `Sales` (`8955.88`).
-- A região `Europe` apresentou média salarial superior à região `Americas`.
-- O boxplot indicou um outlier salarial relevante, acima da faixa esperada.
-- Os departamentos com mais funcionários foram `Shipping` e `Sales`.
+- Média salarial geral: **R$ 6.461,83**
+- Mediana salarial geral: **R$ 6.200,00**
+- Salário mínimo: **R$ 2.100,00**
+- Salário máximo: **R$ 24.000,00**
+- O departamento com maior média salarial foi **Executive** (**R$ 19.333,33**).
+- O departamento com menor média salarial foi **Shipping** (**R$ 3.475,56**).
+- A região **Europe** apresentou média salarial superior à região **Americas**.
+- A maior parte dos salários está concentrada nas faixas mais baixas e intermediárias.
+- Apenas um salário foi identificado como outlier, pertencente ao cargo **President** no departamento **Executive**.
 
-## Gráficos
+## Gráficos principais
 
 ### Histograma da distribuição dos salários
 
@@ -101,25 +104,29 @@ Objetivo:
 
 ![Boxplot por departamento](outputs/figures/boxplot_salario_por_departamento.png)
 
-### Média salarial por cargo
+### Boxplot do salário por região
 
-![Média salarial por cargo](outputs/figures/media_salarial_por_cargo.png)
-
-### Top 10 cargos com maior média salarial
-
-![Top 10 cargos com maior média salarial](outputs/figures/top_10_cargos_maior_media_salarial.png)
+![Boxplot por região](outputs/figures/boxplot_salario_por_regiao.png)
 
 ### Média salarial por região
 
 ![Média salarial por região](outputs/figures/media_salarial_por_regiao.png)
 
-### Quantidade de funcionários por departamento
+### Quantidade de funcionários por região
 
-![Quantidade de funcionários por departamento](outputs/figures/quantidade_funcionarios_por_departamento.png)
+![Quantidade de funcionários por região](outputs/figures/quantidade_funcionarios_por_regiao.png)
 
-### Distribuição por faixa salarial
+### Média salarial x quantidade de funcionários por departamento
+
+![Média salarial x quantidade de funcionários por departamento](outputs/figures/media_salario_qtd_departamento.png)
+
+### Distribuição dos funcionários por faixa salarial
 
 ![Distribuição por faixa salarial](outputs/figures/distribuicao_por_faixa_salarial.png)
+
+### Top 10 cargos com maior média salarial
+
+![Top 10 cargos com maior média salarial](outputs/figures/top_10_cargos_maior_media_salarial.png)
 
 ## Como executar o projeto
 
@@ -127,9 +134,11 @@ Objetivo:
 
 - Python 3 instalado
 - Git instalado
-- Acesso aos arquivos CSV do projeto
+- Acesso ao repositório do projeto
 
 ### Instalação
+
+Crie e ative um ambiente virtual:
 
 ```bash
 python -m venv .venv
@@ -149,38 +158,40 @@ pip install -r requirements.txt
 
 ### Execução
 
-Abra o notebook:
+Para abrir o notebook:
 
 ```bash
 jupyter notebook
 ```
 
-Ou abra diretamente:
+Depois, abra:
 
 ```text
 notebooks/Notebook_Evelyn.ipynb
 ```
 
-Se preferir, também é possível executar a análise pelo script:
+Se preferir executar a análise direto no Python:
 
 ```bash
 python src/analise_eda.py
 ```
 
+Observação: o script também possui fallback para ler os CSVs a partir do repositório remoto, caso os arquivos locais não estejam disponíveis.
+
 ## Sugestões de melhoria para futuras versões
 
-- adicionar mais gráficos comparativos
-- criar uma análise mais detalhada por faixa salarial
-- incluir tratamento de outliers com mais profundidade
-- construir um dashboard interativo
-- conectar a extração diretamente ao banco, em vez de usar apenas CSV
-- expandir a documentação com mais interpretações dos resultados
+- adicionar mais comparações por cargo e por país
+- criar um dashboard interativo
+- aprofundar o tratamento de outliers
+- incluir análise temporal, caso a base seja ampliada
+- automatizar a exportação e atualização dos gráficos
 
-## Checklist da entrega
+## Checklist final
 
-- [x] Consultas SQL criadas
-- [x] CSVs exportados
-- [x] Análise em Python realizada
-- [x] Gráficos gerados
-- [x] README documentado
-- [x] Repositório publicado no GitHub
+- [x] Query 1 criada e documentada
+- [x] Query 2 criada e documentada
+- [x] CSVs gerados e organizados em `data/`
+- [x] Notebook com EDA e gráficos
+- [x] Script Python com a análise
+- [x] README com objetivo, etapas, resultados e execução
+- [x] Repositório pronto para avaliação
